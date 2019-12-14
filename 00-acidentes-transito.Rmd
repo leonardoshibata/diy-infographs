@@ -18,7 +18,8 @@ obitos <- sim_obt10_mun(
   coluna = "Ano do Óbito",
   conteudo = 2,    #Óbitos por ocorrência
   capital = c(110020, 120040, 130260, 140010, 150140, 160030, 172100, 211130, 221100, 230440, 240810, 250750, 261160, 270430, 280030, 292740, 310620, 320530, 330455, 355030, 410690, 420540, 431490, 500270, 510340, 520870, 530010),    #código IBGE de todas as capitais
-  periodo = c("2011", "2017")
+  periodo = c("2011", "2017"),
+  causa_br_cid10 = "104"
 )
 ```
 
@@ -65,5 +66,16 @@ populacao_tidy <- populacao %>%
 # merge
 
 df <- full_join(obitos_tidy, populacao_tidy, by = "municip_cod")
+```
+
+
+
+
+# 4. Cálculo taxa
+
+```{r taxa}
+df %>%
+  mutate(
+    taxa = obitos / Valor * 10^5)
 ```
 
