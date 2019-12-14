@@ -14,7 +14,7 @@ library(sidrar)
 # 1. Mortes por acidente de trânsito
 
 ```{r mortes}
-sim_obt10_mun(
+obitos <- sim_obt10_mun(
   coluna = "Ano do Óbito",
   conteudo = 2,    #Óbitos por ocorrência
   capital = c(110020, 120040, 130260, 140010, 150140, 160030, 172100, 211130, 221100, 230440, 240810, 250750, 261160, 270430, 280030, 292740, 310620, 320530, 330455, 355030, 410690, 420540, 431490, 500270, 510340, 520870, 530010),    #código IBGE de todas as capitais
@@ -27,7 +27,11 @@ sim_obt10_mun(
 # 2. População
 
 ```{r populacao}
-sidrar::search_sidra("TCU")
-
+populacao <- get_sidra(
+  6579,
+  period = c("2011", "2018"),
+  geo = "City",
+  geo.filter = list("City" = c(1100205, 1200401, 1302603, 1400100, 1501402, 1600303, 1721000, 2111300, 2211001, 2304400, 2408102, 2507507, 2611606, 2704302, 2800308, 2927408, 3106200, 3205309, 3304557, 3550308, 4106902, 4205407, 4314902, 5002704, 5103403, 5208707, 5300108))
+)
 ```
 
