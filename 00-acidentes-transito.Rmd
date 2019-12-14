@@ -59,5 +59,11 @@ populacao_tidy <- populacao %>%
   mutate(
     municip_cod = str_sub(`Município (Código)`, end = 6)
   )
+
+
+
+# merge
+
+df <- full_join(obitos_tidy, populacao_tidy, by = "municip_cod")
 ```
 
