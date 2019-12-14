@@ -1,6 +1,8 @@
 ---
 title: "R Notebook"
 output: html_notebook
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup}
@@ -93,10 +95,10 @@ Quais códigos CID foram utilizados?
 
 
 df com a diferença de taxas entre 2017 e 2011.
-O código ficou um tanto quanto gambiarra mas funcionou.
 
 ```{r}
-df3 <- df2 %>% split(.$municipio) %>%
-  map_df(function (x) x$taxa[2]-x$taxa[1]) %>%
-  pivot_longer(everything(), names_to = "capital", values_to = "diff")
+df4 <- df2 %>% pivot_wider(names_from = ano, values_from = taxa) %>%
+  mutate(diff = `2017`-`2011`) %>%
+  select(municipio, diff)
 ```
+
