@@ -14,12 +14,17 @@ library(sidrar)
 # 1. Mortes por acidente de trânsito
 
 ```{r mortes}
+codigos <- c(
+  paste0("V", formatC(1:6, width = 2, flag = "0")),
+  paste0("V", formatC(9:89, width = 2, flag = "0")))
+
 obitos <- sim_obt10_mun(
   coluna = "Ano do Óbito",
   conteudo = 2,    #Óbitos por ocorrência
   capital = c(110020, 120040, 130260, 140010, 150140, 160030, 172100, 211130, 221100, 230440, 240810, 250750, 261160, 270430, 280030, 292740, 310620, 320530, 330455, 355030, 410690, 420540, 431490, 500270, 510340, 520870, 530010),    #código IBGE de todas as capitais
   periodo = c("2011", "2017"),
-  causa_br_cid10 = "104"
+  # grupo_cid10 = c("Pedestre traumatizado em um acidente de transporte", "Ciclista traumatizado em um acidente de transporte", "Motociclista traumat em um acidente de transporte", "Ocupante triciclo motorizado traumat acid transp", "Ocupante automóvel traumat acidente transporte", "Ocupante caminhonete traumat acidente transporte", "Ocupante veíc transp pesado traumat acid transp", "Ocupante ônibus traumat acidente de transporte", "Outros acidentes de transporte terrestre")
+  categoria_cid10 = codigos
 )
 ```
 
@@ -65,7 +70,7 @@ populacao_tidy <- populacao %>%
 
 # merge
 
-df <- full_join(obitos_tidy, populacao_tidy, by = "municip_cod")
+df <- full_join(obitos_tidy, populacao_tidy, by = c("municip_cod", "ano" = "Ano"))
 ```
 
 
@@ -74,8 +79,14 @@ df <- full_join(obitos_tidy, populacao_tidy, by = "municip_cod")
 # 4. Cálculo taxa
 
 ```{r taxa}
-df %>%
+df2 <- df %>%
   mutate(
-    taxa = obitos / Valor * 10^5)
+    taxa = obitos / Valor * 10^5
+    ) %>%
+    select(municipio = `Município.x`, ano, taxa)
 ```
+
+Os valores das taxas não estão batendo com os dados apresentados pelo jornal.
+Talvez há uma diferença no conceito de "mortes no trânsito".
+Quais códigos CID foram utilizados?
 
