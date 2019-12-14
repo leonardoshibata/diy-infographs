@@ -29,9 +29,23 @@ obitos <- sim_obt10_mun(
 ```{r populacao}
 populacao <- get_sidra(
   6579,
-  period = c("2011", "2018"),
+  period = c("2011", "2017"),
   geo = "City",
   geo.filter = list("City" = c(1100205, 1200401, 1302603, 1400100, 1501402, 1600303, 1721000, 2111300, 2211001, 2304400, 2408102, 2507507, 2611606, 2704302, 2800308, 2927408, 3106200, 3205309, 3304557, 3550308, 4106902, 4205407, 4314902, 5002704, 5103403, 5208707, 5300108))
 )
+```
+
+# 3. Data frame
+
+```{r df}
+# tidying obitos
+
+obitos %>%
+  pivot_longer(
+    cols = c(`2011`, `2017`),
+    names_to = "ano",
+    values_to = "obitos"
+    ) %>%
+  filter(`Município` != "TOTAL")
 ```
 
