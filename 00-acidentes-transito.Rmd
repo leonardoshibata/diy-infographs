@@ -40,12 +40,24 @@ populacao <- get_sidra(
 ```{r df}
 # tidying obitos
 
-obitos %>%
+obitos_tidy <- obitos %>%
   pivot_longer(
     cols = c(`2011`, `2017`),
     names_to = "ano",
     values_to = "obitos"
     ) %>%
-  filter(`Município` != "TOTAL")
+  filter(`Município` != "TOTAL") %>%
+  mutate(
+    municip_cod = str_sub(`Município`, end = 6)
+  )
+
+
+
+# tidying populacao
+
+populacao_tidy <- populacao %>%
+  mutate(
+    municip_cod = str_sub(`Município (Código)`, end = 6)
+  )
 ```
 
